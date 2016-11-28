@@ -11,9 +11,10 @@
 
   var btn_reset = document.getElementById('btn_reset');
 
+  el = document.getElementById('timer');
+
   // 顯示秒數
   function updateText () {
-      el = document.getElementById('timer');
       el.innerHTML = msToTime();
       temp = temp - 1000;
   }
@@ -50,7 +51,7 @@
     clearInterval(timer);
     updateText();
   })
-  
+
   // 呼叫顯示秒數
   updateText();
 })();

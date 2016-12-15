@@ -1,57 +1,59 @@
 
-  //倒數5分鐘
-  let timeout = 5 * 60 * 1000;
 
-  let temp = timeout;
+  const btnStart = document.getElementById('btn_start');
 
-  let btn_start = document.getElementById('btn_start');
+  const btnStop = document.getElementById('btn_stop');
 
-  let btn_stop = document.getElementById('btn_stop');
+  const btnReset = document.getElementById('btn_reset');
 
-  let btn_reset = document.getElementById('btn_reset');
-
-  let el = document.getElementById('timer');
+  const el = document.getElementById('timer');
 
   let timer;
 
-  // 顯示秒數
-  function updateText () {
-      el.innerHTML = msToTime();
-      temp = temp - 1000;
-  }
+  // 倒數秒數
+  const timeout = 300;
+
+  let temp = timeout;
 
   // 秒數轉換時間格式
   function msToTime() {
-    let milliseconds = parseInt((temp%1000)/1000)
-    let seconds = parseInt((temp/1000)%60)
-    let minutes = parseInt((temp/(1000*60))%60)
-    let hours = parseInt((temp/(1000*60*60))%24)
 
-    hours = (hours < 10) ? `0${hours}`: `${hours}`;
-    minutes = (minutes < 10) ? `0${minutes}` : `${minutes}`;
-    seconds = (seconds < 10) ? `0${seconds}` : `${seconds}`;
+    let seconds = Math.floor(temp % 60).toString();
+    let minutes = Math.floor((temp / 60) % 60).toString();
+    let hours = parseInt(temp / 3600).toString();
 
-    let a = `${hours}:${minutes}:${seconds}`;
-    return a;
+    while (seconds.length < 2) { seconds = `0${seconds}`; }
+    while (minutes.length < 2) { minutes = `0${minutes}`; }
+    while (hours.length < 2) { hours = `0${hours}`; }
+
+    const showTime = `${hours}:${minutes}:${seconds}`;
+    return showTime;
+  }
+
+  // 顯示秒數
+  function updateText() {
+    el.innerHTML = msToTime();
   }
 
   // 按鈕事件
-  btn_start.addEventListener('click', () => {
+  btnStart.addEventListener('click', () => {
     clearInterval(timer);
-    timer = setInterval(updateText, 1000);
-  })
-
-  btn_stop.addEventListener('click', () => {
-    if(timer){
+    timer = setInterval(() => {
+      temp--;
+      updateText();
+    }, 1000);
+  });
+  btnStop.addEventListener('click', () => {
+    if (timer) {
       clearInterval(timer);
     }
-  })
+  });
 
-  btn_reset.addEventListener('click', () => {
+  btnReset.addEventListener('click', () => {
     temp = timeout;
     clearInterval(timer);
     updateText();
-  })
+  });
 
   // 呼叫顯示秒數
   updateText();

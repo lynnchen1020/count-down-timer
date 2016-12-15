@@ -46,6 +46,24 @@
 
 	'use strict';
 
+	// 秒數轉換為時間格式
+	function ttt(s, n) {
+	  var t = '' + s;
+	  while (t.length < n) {
+	    t = '0' + t;
+	  }
+	  return t;
+	}
+
+	// 秒數轉換時間格式
+	function secToTime(sec) {
+	  var seconds = Math.floor(sec % 60).toString();
+	  var minutes = Math.floor(sec / 60 % 60).toString();
+	  var hours = parseInt(sec / 3600, 10).toString();
+	  var showTime = ttt(hours, 2) + ':' + ttt(minutes, 2) + ':' + ttt(seconds, 2);
+	  return showTime;
+	}
+
 	var btnStart = document.getElementById('btn_start');
 
 	var btnStop = document.getElementById('btn_stop');
@@ -59,42 +77,22 @@
 	// 倒數秒數
 	var timeout = 300;
 
-	var temp = timeout;
-
-	// 秒數轉換時間格式
-	function msToTime() {
-
-	  var seconds = Math.floor(temp % 60).toString();
-	  var minutes = Math.floor(temp / 60 % 60).toString();
-	  var hours = parseInt(temp / 3600).toString();
-
-	  while (seconds.length < 2) {
-	    seconds = '0' + seconds;
-	  }
-	  while (minutes.length < 2) {
-	    minutes = '0' + minutes;
-	  }
-	  while (hours.length < 2) {
-	    hours = '0' + hours;
-	  }
-
-	  var showTime = hours + ':' + minutes + ':' + seconds;
-	  return showTime;
-	}
+	var count = timeout;
 
 	// 顯示秒數
 	function updateText() {
-	  el.innerHTML = msToTime();
+	  el.innerHTML = secToTime(count);
 	}
 
 	// 按鈕事件
 	btnStart.addEventListener('click', function () {
 	  clearInterval(timer);
 	  timer = setInterval(function () {
-	    temp--;
+	    count--;
 	    updateText();
 	  }, 1000);
 	});
+
 	btnStop.addEventListener('click', function () {
 	  if (timer) {
 	    clearInterval(timer);
@@ -102,12 +100,12 @@
 	});
 
 	btnReset.addEventListener('click', function () {
-	  temp = timeout;
-	  clearInterval(timer);
+	  // clearInterval(timer);
+	  count = timeout;
 	  updateText();
 	});
 
-	// 呼叫顯示秒數
+	// 顯示初始秒數
 	updateText();
 
 /***/ }
